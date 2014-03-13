@@ -27,12 +27,7 @@ $uniq_var .= 'X' while exists $ENV{$uniq_var};
 print $file "set $uniq_var=1\n";
 close $file;
 
-my ($exists, $val);
-eval{
-  setenv($filename);
-  $exists = exists $ENV{$uniq_var};
-  $val = $ENV{$uniq_var};
-};
+eval{ setenv($filename) };
 is($@, '');
-ok($exists);
-ok($val == 1);
+ok(exists $ENV{$uniq_var});
+ok($ENV{$uniq_var} == 1);
