@@ -9,7 +9,7 @@ use strict;
 use warnings;
 
 use lib '../lib';
-use Test::More tests => 1;
+use Test::More tests => 4;
 use Shell::SetEnv;
 ok(1); # If we made it this far, we're ok.
 
@@ -18,3 +18,21 @@ ok(1); # If we made it this far, we're ok.
 # Insert your test code below, the Test::More module is use()ed here so read
 # its man page ( perldoc Test::More ) for help writing this test script.
 
+use File::Temp qw(tempfile);
+my ($file, $filename) = tempfile(SUFFIX => '.bat', UNLINK => 1);
+
+my $uniq_var = "NOT_EXISTING_VARIABLE";
+$uniq_var .= 'X' while exists $ENV{$uniq_var};
+
+print $file "set $uniq_var=1\n";
+close $file;
+
+my ($exists, $val);
+eval{
+  setenv($filename);
+  $exists = exists $ENV{$uniq_var};
+  $val = $ENV{$uniq_var};
+};
+is($@, '');
+ok($exists);
+ok($val == 1);
