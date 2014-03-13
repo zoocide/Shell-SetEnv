@@ -27,7 +27,7 @@ sub setenv
 {
   my $file = shift;
   my $script = 'use Storable qw(freeze); print freeze(\%ENV)';
-  my $str = `"$file" 1>nul 2>nul & $^X -we "$script"`;
+  my $str = `"$file" 1>nul 2>nul && $^X -we "$script"`;
   $str || die "An error occured while executing '$file'.\n";
   %ENV = %{thaw($str)};
 }
