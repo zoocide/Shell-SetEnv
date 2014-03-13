@@ -1,13 +1,13 @@
-Shell::SetEnv version 0.1.0
+Shell::SetEnv version 0.1
 =======================
 
-Allows to import environment variables setted by .bat file.
+Allows to import environment variables, set by .bat file.
 
 INSTALLATION
 
 To install this module type the following:
 
-   perl Makefile.PL
+   perl Makefile.PL PREFIX=install/directory
    make
    make test
    make install
